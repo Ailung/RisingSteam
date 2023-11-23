@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,10 +11,10 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private BattleManager battleManager;
-    [SerializeField] private float life = 100;
+    [SerializeField] private float maxLife = 100;
     [SerializeField] private int armor = 1;
     [SerializeField] private int casillasAMover = 6;
-    private GameObject player;
+    [SerializeField] private HealthBar barraDeVida;
     [SerializeField] private int enemyType = 0;
     [SerializeField] private int distPlayerMax = 1;
     [SerializeField] private int distPlayerMin = 1;
@@ -21,6 +22,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float rangeDamage;
     [SerializeField] private float meleeDamage;
 
+    private GameObject player;
+    private float life;
     private Animator animator;
     private List<GameObject> playerList;
     private float timer = 0;
@@ -32,6 +35,7 @@ public class Enemy : MonoBehaviour
     private Vector3 NearObstacleDistVect;
     private Vector3 NearObstaclePos = new Vector3(100, 100, 100);
     private int myTurn;
+    private bool isMyTurn = false;
     private bool right = true;
     private bool left = true;
     private bool up = true;
@@ -42,7 +46,6 @@ public class Enemy : MonoBehaviour
     private int focusPlayer;
     private bool canAttack = true;
     private bool isDead = false;
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -124,11 +127,22 @@ public class Enemy : MonoBehaviour
     public void GetDamage(float attackDamage)
     {
         life -= attackDamage;
+        barraDeVida.SetHealth();
+    }
+
+    public float maxlifePost()
+    {
+        return maxLife;
     }
 
     public float lifePost() 
     { 
         return life; 
+    }
+
+    public void changeTurn(bool turn)
+    {
+        isMyTurn = turn;
     }
 
     private void doDamage(GameObject player, int typeOfDamage)
@@ -177,7 +191,7 @@ public class Enemy : MonoBehaviour
     private void EnemyTurn()
     {
         //Debug.Log(myTurn);
-        if (battleManager.QueTurno() == myTurn && playerList.Count != 0 && !isDead)
+        if (isMyTurn && playerList.Count != 0 && !isDead)
         {
 
 
@@ -265,7 +279,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (distPlayerTotal < distPlayerMax && distPlayerTotal > 1 && canAttack) 
+            if (distPlayerTotal <= distPlayerMax && distPlayerTotal > 1 && canAttack) 
             {
                 animator.SetTrigger("isMagic");
                 doDamage(player, 0); 
@@ -284,6 +298,7 @@ public class Enemy : MonoBehaviour
                 timer = 0;
                 casillasMovidas = 0;
                 canAttack = true;
+                isMyTurn = false;
             }
 
             // Timer para que el movimiento del enemigo
@@ -320,6 +335,10 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        casillasMovidas = 0;
+        canAttack = true;
+        isMyTurn = false;
+        life = maxLife;
         animator = GetComponent<Animator>();
         StartPos = gameObject.transform.position;
         LastPos = gameObject.transform.position;

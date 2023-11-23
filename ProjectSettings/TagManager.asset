@@ -50,3 +50,9 @@ TagManager:
   - name: Background
     uniqueID: 2966677685
     locked: 0
+  - name: HUDCombate
+    uniqueID: 2973957549
+    locked: 0
+  - name: Characters
+    uniqueID: 2479022233
+    locked: 0
