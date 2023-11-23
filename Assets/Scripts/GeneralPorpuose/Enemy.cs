@@ -279,7 +279,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (distPlayerTotal < distPlayerMax && distPlayerTotal > 1 && canAttack) 
+            if (distPlayerTotal <= distPlayerMax && distPlayerTotal > 1 && canAttack) 
             {
                 animator.SetTrigger("isMagic");
                 doDamage(player, 0); 
@@ -335,6 +335,9 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        casillasMovidas = 0;
+        canAttack = true;
+        isMyTurn = false;
         life = maxLife;
         animator = GetComponent<Animator>();
         StartPos = gameObject.transform.position;
