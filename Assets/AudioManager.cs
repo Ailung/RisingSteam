@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic("theme");
+        PlayMusic("Theme");
     }
 
     public void PlayMusic(string name)
@@ -60,5 +60,23 @@ public class AudioManager : MonoBehaviour
         }
 
     }
-}
 
+    public void ToggleMusic()
+    {
+        MusicSource.mute = !MusicSource.mute;
+    }
+    public void ToggleSFX()
+    {
+        SFXSource.mute = !SFXSource.mute;
+    }
+
+    public void MusicVolume(float volume)
+    {
+        MusicSource.volume = volume;
+    }
+    public void SFXVolume(float volume)
+    {
+        SFXSource.volume = volume;
+    }
+
+}
