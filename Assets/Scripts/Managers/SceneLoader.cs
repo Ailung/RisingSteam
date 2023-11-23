@@ -16,6 +16,10 @@ public static class SceneLoader
     private static Action onLoaderCallback;
     private static AsyncOperation loadingAsyncOperation;
 
+    public static void AdditiveLoad(Scene scene)
+    {
+        SceneManager.LoadScene(scene.ToString(), LoadSceneMode.Additive);
+    }
     public static void Load(Scene scene) 
     {
         //Set the loader callback action to load the target scene

@@ -51,7 +51,7 @@ public class PlayerCharacter : MonoBehaviour
         if (ObjectType.CompareTag("Enemy"))
         {
             Debug.Log("Enemy");
-            gameManager.ChangeBattleScene();
+            SceneLoader.AdditiveLoad(SceneLoader.Scene.BattleScene1);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
