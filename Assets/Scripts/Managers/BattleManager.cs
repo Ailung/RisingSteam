@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Events;
+using static UnityEditor.Progress;
 
 public class BattleManager : MonoBehaviour
 {
@@ -13,17 +15,21 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject gameManagerPrefab;
 
     private GameManager gameManager;
-    private List<GameObject> playersList = new List<GameObject>();
-    private List<GameObject> enemyList = new List<GameObject>();
-    private List<GameObject> totalList = new List<GameObject>();
-    //private Queue<GameObject> totalList = new();
-    private List<int> turnList = new List<int>();
+    private List<GameObject> playersList = new();
+    private List<GameObject> enemyList = new();
+    private List<GameObject> totalList = new();
+    private Queue<GameObject> totalQueue = new();
+    private List<int> turnList = new();
     private GameObject pointer;
     private int whichEnemy = 0;
-    private bool isBattle = false;
+    //private bool isBattle = false;
+
+    public UnityEvent OnWin = new UnityEvent();
+    public UnityEvent OnLose = new UnityEvent();
 
     public void NextTurn()
     {
+        
         if (turn <= totalList.Count)
         {
             turn++;
@@ -31,6 +37,16 @@ public class BattleManager : MonoBehaviour
         if (turn > totalList.Count)
         {
             turn = 1;
+        }
+        var dequeuedObject = totalQueue.Dequeue();
+        totalQueue.Enqueue(dequeuedObject);
+        if (dequeuedObject.gameObject.TryGetComponent<Player>(out Player pobjectComponent))
+        {
+            pobjectComponent.changeTurn(true);
+        }
+        if (dequeuedObject.gameObject.TryGetComponent<Enemy>(out Enemy eobjectComponent))
+        {
+            eobjectComponent.changeTurn(true);
         }
     }
 
@@ -47,6 +63,7 @@ public class BattleManager : MonoBehaviour
         //Debug.Log(gameObject.name);
         enemyList.Add(gameObject);
         totalList.Add(gameObject);
+        totalQueue.Enqueue(gameObject);
     }
 
     //Agregar a lista players
@@ -55,6 +72,7 @@ public class BattleManager : MonoBehaviour
         //Debug.Log(gameObject.name);
         playersList.Add(gameObject);
         totalList.Add(gameObject);
+        totalQueue.Enqueue(gameObject);
     }
 
     //Devolver que enemigo esta seleccionado
@@ -91,6 +109,16 @@ public class BattleManager : MonoBehaviour
                 playerComponent.AssignTurn(turnList[index]);
                 turnList.RemoveAt(index);
             }
+        }
+        var dequeuedObject = totalQueue.Dequeue();
+        totalQueue.Enqueue(dequeuedObject);
+        if (dequeuedObject.gameObject.TryGetComponent<Player>(out Player pobjectComponent))
+        {
+            pobjectComponent.changeTurn(true);
+        }
+        if (dequeuedObject.gameObject.TryGetComponent<Enemy>(out Enemy eobjectComponent))
+        {
+            eobjectComponent.changeTurn(true);
         }
     }
 
@@ -157,6 +185,7 @@ public class BattleManager : MonoBehaviour
         {
             turn = 0;
             Debug.Log("ganaste");
+            //OnWin.Invoke();
             gameManager.ChangeFreeRoamScene();
         }
         
@@ -164,6 +193,7 @@ public class BattleManager : MonoBehaviour
         {
             turn = 0;
             Debug.Log("perdiste");
+            //OnLose.Invoke();
             gameManager.ChangeFreeRoamScene();
         }
     }
