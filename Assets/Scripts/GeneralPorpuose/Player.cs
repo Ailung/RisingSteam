@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
@@ -13,14 +14,16 @@ public class Player : MonoBehaviour
     [SerializeField] private float rangeDamage;
     [SerializeField] private int casillasAMover = 6;
     [SerializeField] private BattleManager battleManager;
-    [SerializeField] private float life = 100;
+    [SerializeField] private PlayersEventsManager playersEventsManager;
+    [SerializeField] private float maxLife = 100;
     [SerializeField] private int stregth;
     [SerializeField] private int constitution;
     [SerializeField] private int wisdom;
     [SerializeField] private int armor;
     [SerializeField] private GameObject pointerPrefab;
-    
+    [SerializeField] private HealthBar barraDeVida;
 
+    private float life;
     private Animator animator;
     private List<GameObject> playerList;
     private List<GameObject> enemyList;
@@ -31,6 +34,7 @@ public class Player : MonoBehaviour
     private Vector3 NearObstacleDistVect;
     private Vector3 NearObstaclePos = new Vector3 (100,100,100);
     private int myTurn;
+    private bool isMyTurn = false;
     private bool canRight = true;
     private bool canLeft = true;
     private bool canUp = true;
@@ -44,6 +48,8 @@ public class Player : MonoBehaviour
 
     //public UnityEvent PassTurn = new UnityEvent();
 
+
+    
 
     //Deteccion de entrar en colision con trigger que obtiene la posicion del objeto colisionado, la distancia tanto vectorial como en magnitud
     private void OnTriggerEnter2D(Collider2D collision)
@@ -103,7 +109,7 @@ public class Player : MonoBehaviour
     {
         enemyList = battleManager.EnemyListPost();
         //Se entra al turno basado en que trno determina el game manager
-        if (battleManager.QueTurno() == myTurn && !isDead)
+        if (isMyTurn && !isDead)
         {
             //Se entra si la cantidad de las casillas a mover es mayor que las que ya fueron movidas
             if (casillasAMover > casillasMovidas)
@@ -142,6 +148,7 @@ public class Player : MonoBehaviour
                 casillasMovidas = 0;
                 canAttack = true;
                 StartPos = gameObject.transform.position;
+                isMyTurn = false;
             }
 
             if (Input.GetButtonUp("MeleeAttack") && canAttack)
@@ -168,9 +175,52 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void doMelee()
+    {
+        if(isMyTurn && !isDead && canAttack)
+        {
+            animator.SetTrigger("isAttacking");
+            enemyList = new List<GameObject>(battleManager.EnemyListPost());
+            doDamage(enemyList[battleManager.WhichEnemyPost()], meleeDamage, 1);
+        }
+        
+    }
+
+    public void doRange()
+    {
+        if(isMyTurn && !isDead && canAttack)
+        {
+            animator.SetTrigger("isMagic");
+            enemyList = new List<GameObject>(battleManager.EnemyListPost());
+            doDamage(enemyList[battleManager.WhichEnemyPost()], rangeDamage, 0);
+        }
+    }
+
+    public void doPassTurn()
+    {
+        if(isMyTurn && !isDead)
+        {
+            battleManager.NextTurn();
+            casillasMovidas = 0;
+            canAttack = true;
+            StartPos = gameObject.transform.position;
+            isMyTurn = false;
+        }
+    }
+
     public float lifePost()
     {
         return life;
+    }
+
+    public float maxlifePost()
+    {
+        return maxLife;
+    }
+
+    public void changeTurn(bool turn)
+    {
+        isMyTurn = turn;
     }
 
     private void doDamage(GameObject enemigo, float damage, int typeOfDamage)
@@ -216,6 +266,7 @@ public class Player : MonoBehaviour
     public void GetDamage(float attackDamage)
     {
         life -= attackDamage;
+        barraDeVida.SetHealth();
         Debug.Log(life);
     }
 
@@ -238,11 +289,15 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playersEventsManager.Melee.AddListener(doMelee);
+        playersEventsManager.Range.AddListener(doRange);
+        playersEventsManager.NextTurn.AddListener(doPassTurn);
+        life = maxLife;
         animator = GetComponent<Animator>();
-       StartPos = gameObject.transform.position;
-       LastPos = gameObject.transform.position;
-       NearObstacleDistVect = NearObstaclePos - gameObject.transform.position;
-       NearObstacleDist = NearObstacleDistVect.magnitude;
+        StartPos = gameObject.transform.position;
+        LastPos = gameObject.transform.position;
+        NearObstacleDistVect = NearObstaclePos - gameObject.transform.position;
+        NearObstacleDist = NearObstacleDistVect.magnitude;
     }
 
 
@@ -252,7 +307,7 @@ public class Player : MonoBehaviour
         if (!isDead)
         {
             Turn();
-        }else if (isDead && battleManager.QueTurno() == myTurn)
+        }else if (isDead && isMyTurn)
         {
             //Debug.Log("HOLA");
             battleManager.NextTurn();
