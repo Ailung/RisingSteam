@@ -25,24 +25,26 @@ public class PlayerCharacter : MonoBehaviour
     private InventoryItemData DoorKey;
     private InventoryItemData PlayerItem;
 
+    private bool comeBack = true;
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         ObjectType = collision.gameObject;
         if (ObjectType.CompareTag("Chest"))
         {
             animator.SetTrigger("isInteracting");
-            Debug.Log("cofre");
+            //Debug.Log("cofre");
             ObjectChestInventory = ObjectType.GetComponent<InventorySystem>();
         }
         if (ObjectType.CompareTag("Door"))
         {
             animator.SetTrigger("isInteracting");
-            Debug.Log("puerta interactuable");
+            //Debug.Log("puerta interactuable");
             ObjectDoorInventory = ObjectType.GetComponent<InventorySystem>();
             ObjectDoorCollider = ObjectType.GetComponent<BoxCollider2D>();
 
             DoorKey = ObjectDoorInventory.inventory[0].ItemData;
-            Debug.Log(DoorKey);
+            //Debug.Log(DoorKey);
         }
     }
 
@@ -50,8 +52,9 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (ObjectType.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy");
-            gameManager.ChangeBattleScene();
+            GameManager.Instance.UpdateCharacterPos(this.gameObject);
+            //Debug.Log("Enemy");
+            GameManager.Instance.ChangeBattleScene();
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -59,7 +62,7 @@ public class PlayerCharacter : MonoBehaviour
         if (ObjectType.CompareTag("MovableObject"))
         {
             MovableObjectRB = collision.gameObject.GetComponent<Rigidbody2D>();
-            Debug.Log(MovableObjectRB);
+            //Debug.Log(MovableObjectRB);
             Vector2 forceDirection = collision.contacts[0].normal;
             Vector2 force = forceDirection.normalized * -ForceAplied;
             MovableObjectRB.AddForce(force);
@@ -109,7 +112,7 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 if (ObjectType.CompareTag("Enemy"))
                 {
-                    Debug.Log("enemy");
+                    //Debug.Log("enemy");
                 }
             }
         }
@@ -119,10 +122,16 @@ public class PlayerCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        comeBack = true;
         sprite = gameObject.GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         PlayerInventory = GetComponent<InventorySystem>();
         RigidBody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Awake()
+    {
+        comeBack = true;
     }
     private void FixedUpdate()
     {
@@ -160,8 +169,11 @@ public class PlayerCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
+        if (comeBack)
+        {
+            this.gameObject.transform.position = GameManager.Instance.postCharPos();
+            comeBack = false;
+        }
         PlayerInteraction();
         //MoveObject();
 
