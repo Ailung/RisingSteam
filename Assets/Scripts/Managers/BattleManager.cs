@@ -187,6 +187,9 @@ public class BattleManager : MonoBehaviour
             Debug.Log("ganaste");
             //OnWin.Invoke();
             gameManager.ChangeFreeRoamScene();
+
+            AudioManager.instance.MusicSource.Stop();
+            AudioManager.instance.PlaySFX("Victory");
         }
         
         if (playersList.Count == 0)
@@ -195,6 +198,9 @@ public class BattleManager : MonoBehaviour
             Debug.Log("perdiste");
             //OnLose.Invoke();
             gameManager.ChangeFreeRoamScene();
+
+            AudioManager.instance.MusicSource.Stop();
+            AudioManager.instance.PlaySFX("Defeat");
         }
     }
 }
