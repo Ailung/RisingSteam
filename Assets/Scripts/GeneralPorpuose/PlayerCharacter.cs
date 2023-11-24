@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
@@ -31,18 +32,18 @@ public class PlayerCharacter : MonoBehaviour
         if (ObjectType.CompareTag("Chest"))
         {
             animator.SetTrigger("isInteracting");
-            Debug.Log("cofre");
+            UnityEngine.Debug.Log("cofre");
             ObjectChestInventory = ObjectType.GetComponent<InventorySystem>();
         }
         if (ObjectType.CompareTag("Door"))
         {
             animator.SetTrigger("isInteracting");
-            Debug.Log("puerta interactuable");
+            UnityEngine.Debug.Log("puerta interactuable");
             ObjectDoorInventory = ObjectType.GetComponent<InventorySystem>();
             ObjectDoorCollider = ObjectType.GetComponent<BoxCollider2D>();
 
             DoorKey = ObjectDoorInventory.inventory[0].ItemData;
-            Debug.Log(DoorKey);
+            UnityEngine.Debug.Log(DoorKey);
         }
     }
 
@@ -50,8 +51,8 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (ObjectType.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy");
-            gameManager.ChangeBattleScene();
+            UnityEngine.Debug.Log("Enemy");
+            SceneLoader.Load(SceneLoader.Scene.BattleScene1);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -59,7 +60,7 @@ public class PlayerCharacter : MonoBehaviour
         if (ObjectType.CompareTag("MovableObject"))
         {
             MovableObjectRB = collision.gameObject.GetComponent<Rigidbody2D>();
-            Debug.Log(MovableObjectRB);
+            UnityEngine.Debug.Log(MovableObjectRB);
             Vector2 forceDirection = collision.contacts[0].normal;
             Vector2 force = forceDirection.normalized * -ForceAplied;
             MovableObjectRB.AddForce(force);
@@ -88,7 +89,9 @@ public class PlayerCharacter : MonoBehaviour
                 {
                     if (ObjectChestInventory.InventoryItemCount() > 0)
                     {
+                        UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
                         PlayerInventory.AddItem(ObjectChestInventory.inventory[0], ObjectChestInventory.inventory[0].StackSize);
+                        UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
                         ObjectChestInventory.RemoveItem(ObjectChestInventory.inventory[0], ObjectChestInventory.inventory[0].StackSize);
                         Destroy(ObjectChestInventory);
                     }
@@ -106,10 +109,6 @@ public class PlayerCharacter : MonoBehaviour
                         }
                     }
 
-                }
-                if (ObjectType.CompareTag("Enemy"))
-                {
-                    Debug.Log("enemy");
                 }
             }
         }
