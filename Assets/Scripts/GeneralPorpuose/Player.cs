@@ -180,6 +180,7 @@ public class Player : MonoBehaviour
         if(isMyTurn && !isDead && canAttack)
         {
             animator.SetTrigger("isAttacking");
+            AudioManager.instance.PlaySFX("Sword");
             enemyList = new List<GameObject>(battleManager.EnemyListPost());
             doDamage(enemyList[battleManager.WhichEnemyPost()], meleeDamage, 1);
         }
@@ -191,6 +192,7 @@ public class Player : MonoBehaviour
         if(isMyTurn && !isDead && canAttack)
         {
             animator.SetTrigger("isMagic");
+            AudioManager.instance.PlaySFX("Magic");
             enemyList = new List<GameObject>(battleManager.EnemyListPost());
             doDamage(enemyList[battleManager.WhichEnemyPost()], rangeDamage, 0);
         }
