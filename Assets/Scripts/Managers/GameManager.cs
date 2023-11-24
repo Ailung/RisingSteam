@@ -25,10 +25,12 @@ public class GameManager : MonoBehaviour
     private int whichEnemy = 0;
     private bool isBattle = false;
     private Vector3 posCharacter;
+    private Vector3 firstPosCharacter;
 
 
     private void Awake()
     {
+        FirstCharacterPos(player);
         UpdateCharacterPos(player);
         CreateSingleton();
     }
@@ -50,12 +52,20 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
- 
+        
+    }
+    public void FirstCharacterPos(GameObject player)
+    {
+        firstPosCharacter = player.transform.position;
     }
     public void UpdateCharacterPos(GameObject player)
     {
         posCharacter = player.transform.position;
         Debug.Log(posCharacter);
+    }
+    public void ResetCharacterPos() 
+    {
+        posCharacter = firstPosCharacter;
     }
 
     public Vector3 postCharPos()
@@ -73,7 +83,7 @@ public class GameManager : MonoBehaviour
     //Cambiar a la escena de freeroam
     public void ChangeFreeRoamScene()
     {
-        SceneManager.LoadScene(FreeroamScene);
+        SceneLoader.Load(SceneLoader.Scene.StartMap);
         isBattle = false;
     }
 

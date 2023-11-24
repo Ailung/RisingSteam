@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     public void NewGame()
     {
-        SceneLoader.Load(SceneLoader.Scene.Freeroam);
+        SceneLoader.Load(SceneLoader.Scene.StartMap);
     }
     //public void Options()
     //{
