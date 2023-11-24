@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
@@ -54,7 +55,7 @@ public class PlayerCharacter : MonoBehaviour
         {
             GameManager.Instance.UpdateCharacterPos(this.gameObject);
             //Debug.Log("Enemy");
-            GameManager.Instance.ChangeBattleScene();
+            SceneLoader.Load(SceneLoader.Scene.BattleScene1);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -91,7 +92,9 @@ public class PlayerCharacter : MonoBehaviour
                 {
                     if (ObjectChestInventory.InventoryItemCount() > 0)
                     {
+                        UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
                         PlayerInventory.AddItem(ObjectChestInventory.inventory[0], ObjectChestInventory.inventory[0].StackSize);
+                        UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
                         ObjectChestInventory.RemoveItem(ObjectChestInventory.inventory[0], ObjectChestInventory.inventory[0].StackSize);
                         Destroy(ObjectChestInventory);
                     }

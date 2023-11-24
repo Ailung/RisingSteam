@@ -9,6 +9,7 @@ public class ChestContainer : MonoBehaviour
 {
     private Animator animator;
     private bool InChestRad;
+    GameObject childPopUp;
     public bool InsideChestRaius()
     {
         return InChestRad;
@@ -28,13 +29,30 @@ public class ChestContainer : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
+    private void ShowLoot ()
+    {
+        //GameObject parentObject = GameObject.Find("Chest 1");
+        //Transform parentTransform = parentObject.transform;
+        Transform child = this.gameObject.transform.GetChild(0);
+        childPopUp = child.gameObject;
+        StartCoroutine(ShowObjectForTime(5f));
 
+    }
+    IEnumerator ShowObjectForTime(float time)
+    {
+        childPopUp.SetActive(true);
+        yield return new WaitForSeconds(time);
+        childPopUp.SetActive(false);
+        Destroy(childPopUp);
+    }
     // Update is called once per frame
     void Update()
     {
         if (InChestRad && Input.GetButtonDown("Interact"))
         {
-            animator.SetTrigger("isOpening"); ;
+            ShowLoot();
+            animator.SetTrigger("isOpening");
+            
         }
         
     }
