@@ -282,11 +282,13 @@ public class Enemy : MonoBehaviour
             if (distPlayerTotal <= distPlayerMax && distPlayerTotal > 1 && canAttack) 
             {
                 animator.SetTrigger("isMagic");
+                AudioManager.instance.PlaySFX("Magic");
                 doDamage(player, 0); 
             }
             if (distPlayerTotal <= 1 && canAttack)
             {
                 animator.SetTrigger("isAttacking");
+                AudioManager.instance.PlaySFX("Sword");
                 doDamage(player, 1);
             }
 
