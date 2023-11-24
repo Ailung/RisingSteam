@@ -185,16 +185,16 @@ public class BattleManager : MonoBehaviour
         {
             turn = 0;
             Debug.Log("ganaste");
-            //OnWin.Invoke();
-            gameManager.ChangeFreeRoamScene();
+            OnWin.Invoke();
+            //gameManager.ChangeFreeRoamScene();
         }
         
         if (playersList.Count == 0)
         {
             turn = 0;
             Debug.Log("perdiste");
-            //OnLose.Invoke();
-            gameManager.ChangeFreeRoamScene();
+            OnLose.Invoke();
+            //gameManager.ChangeFreeRoamScene();
         }
     }
 }
