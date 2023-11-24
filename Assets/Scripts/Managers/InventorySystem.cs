@@ -41,19 +41,15 @@ public class InventorySystem : MonoBehaviour
                 Debug.Log(PlayerHasItem);
             }
         }
-
         if (!PlayerHasItem)
         {
             inventory.Add(Item);
         }
-        if (PlayerHasItem)
+        foreach (InventoryItem PlayerItem in inventory)
         {
-            foreach (InventoryItem PlayerItem in inventory)
+            if (PlayerItem.ItemData == NewItemName)
             {
-                if (PlayerItem.ItemData == NewItemName)
-                {
-                    PlayerItem.AddToStack(RecivedStackSize);
-                }
+                PlayerItem.AddToStack(RecivedStackSize);
             }
         }
     }
@@ -110,8 +106,8 @@ public class InventorySystem : MonoBehaviour
         
     }
 
-    internal void Remove()
-    {
-        throw new NotImplementedException();
-    }
+    //internal void Remove()
+    //{
+    //    throw new NotImplementedException();
+    //}
 }
