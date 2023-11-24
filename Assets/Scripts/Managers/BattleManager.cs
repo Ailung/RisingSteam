@@ -22,7 +22,7 @@ public class BattleManager : MonoBehaviour
     private List<int> turnList = new();
     private GameObject pointer;
     private int whichEnemy = 0;
-    //private bool isBattle = false;
+    private bool EndBattle = false;
 
     public UnityEvent OnWin = new UnityEvent();
     public UnityEvent OnLose = new UnityEvent();
@@ -85,6 +85,7 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EndBattle = false;
         pointer = Instantiate(pointerPrefab);
         gameManagerPrefab.TryGetComponent<GameManager>(out GameManager manager);
         gameManager = manager;
@@ -181,19 +182,22 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        if (enemyList.Count == 0)
+        if (enemyList.Count == 0 && !EndBattle)
         {
             turn = 0;
+            EndBattle = true;
+            AudioManager.instance.PlaySFX("Victory");
             Debug.Log("ganaste");
             OnWin.Invoke();
         }
         
-        if (playersList.Count == 0)
+        if (playersList.Count == 0 && !EndBattle)
         {
             turn = 0;
+            EndBattle = true;
+            AudioManager.instance.PlaySFX("Defeat");
             Debug.Log("perdiste");
             OnLose.Invoke();
-            //gameManager.ChangeFreeRoamScene();
         }
     }
 }
