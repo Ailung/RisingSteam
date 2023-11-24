@@ -38,13 +38,14 @@ public class LoseMenuScript : MonoBehaviour
 
     public void Retry()
     {
-        SceneLoader.Load(SceneLoader.Scene.Freeroam);
+        GameManager.Instance.ResetCharacterPos();
+        SceneLoader.Load(SceneLoader.Scene.StartMap);
         Time.timeScale = 1;
     }
 
     public void Continue()
     {
-        SceneLoader.Load(SceneLoader.Scene.Freeroam);
+        SceneLoader.Load(SceneLoader.Scene.StartMap);
         Time.timeScale = 1;
     }
 
