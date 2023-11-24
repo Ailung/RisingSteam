@@ -14,6 +14,7 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] public float ChaseSpeed = 8f;
     [SerializeField] public bool horizontal;
     [SerializeField] public bool vertical;
+    [SerializeField] public bool diagonalUR;
 
     private Animator animator;
     private Rigidbody2D rb;
@@ -65,7 +66,35 @@ public class EnemyPatrol : MonoBehaviour
                  
                  }
              }
-             rb.velocity = MoveDirection * PatrolSpeed;
+            if (vertical)
+            {
+                if (Vector2.Distance(rb.position, PatrolStart.position) < 0.1)
+                {
+                    sprite.flipX = false;
+                    MoveDirection = Vector2.down;
+                }
+                if (Vector2.Distance(rb.position, PatrolEnd.position) < 0.1)
+                {
+                    sprite.flipX = true;
+                    MoveDirection = Vector2.up;
+
+                }
+            }
+            if (diagonalUR)
+            {
+                if (Vector2.Distance(rb.position, PatrolStart.position) < 0.1)
+                {
+                    sprite.flipX = false;
+                    MoveDirection = Vector2.down + Vector2.left;
+                }
+                if (Vector2.Distance(rb.position, PatrolEnd.position) < 0.1)
+                {
+                    sprite.flipX = true;
+                    MoveDirection = Vector2.up + Vector2.right;
+
+                }
+            }
+            rb.velocity = MoveDirection * PatrolSpeed;
         }
         if (!InPatrolRoute)
         {
@@ -75,7 +104,9 @@ public class EnemyPatrol : MonoBehaviour
             {
                 gameObject.transform.position = PatrolCenter.position;
                 InPatrolRoute = true;
-                MoveDirection = Vector2.right;
+                if (horizontal)MoveDirection = Vector2.right;
+                if (vertical)MoveDirection = Vector2.up;
+                if (diagonalUR) MoveDirection = Vector2.right + Vector2.up;
                 rb.velocity = MoveDirection * PatrolSpeed;
             }
             /*
@@ -99,6 +130,14 @@ public class EnemyPatrol : MonoBehaviour
         if (horizontal)
         {
            MoveDirection = Vector2.right;
+        }
+        if (vertical)
+        {
+            MoveDirection = Vector2.up;
+        }
+        if (diagonalUR)
+        {
+            MoveDirection = Vector2.up + Vector2.right;
         }
         InPatrolRoute = true;
     }
