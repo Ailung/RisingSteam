@@ -185,22 +185,16 @@ public class BattleManager : MonoBehaviour
         {
             turn = 0;
             Debug.Log("ganaste");
-            //OnWin.Invoke();
-            gameManager.ChangeFreeRoamScene();
-
-            AudioManager.instance.MusicSource.Stop();
-            AudioManager.instance.PlaySFX("Victory");
+            OnWin.Invoke();
+            //gameManager.ChangeFreeRoamScene();
         }
         
         if (playersList.Count == 0)
         {
             turn = 0;
             Debug.Log("perdiste");
-            //OnLose.Invoke();
-            gameManager.ChangeFreeRoamScene();
-
-            AudioManager.instance.MusicSource.Stop();
-            AudioManager.instance.PlaySFX("Defeat");
+            OnLose.Invoke();
+            //gameManager.ChangeFreeRoamScene();
         }
     }
 }
