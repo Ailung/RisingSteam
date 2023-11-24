@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee7428d0a8d32a34286bf9c4c09395db, type: 3}
-  m_Name: Rusty Key
+  m_Name: Key Rusty
   m_EditorClassIdentifier: 
   id: key1
   itemName: Wooden Door Key
