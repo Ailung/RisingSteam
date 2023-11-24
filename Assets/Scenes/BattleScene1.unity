@@ -460,6 +460,20 @@ Transform:
   - {fileID: 267281056}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!224 &385358689
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385358688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2113527789}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &388035318
 PrefabInstance:
@@ -799,7 +813,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 711962441679038759, guid: 6be83460865eba64bb6d541b0e6cbb95, type: 3}
       propertyPath: m_RootOrder
+
       value: 4
+
       objectReference: {fileID: 0}
     - target: {fileID: 711962441679038759, guid: 6be83460865eba64bb6d541b0e6cbb95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -843,7 +859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 711962441730566264, guid: 6be83460865eba64bb6d541b0e6cbb95, type: 3}
       propertyPath: m_Volume
-      value: 0.5
+      value: 0.607
       objectReference: {fileID: 0}
     - target: {fileID: 711962441730566264, guid: 6be83460865eba64bb6d541b0e6cbb95, type: 3}
       propertyPath: BypassEffects
@@ -863,7 +879,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 711962442489408839, guid: 6be83460865eba64bb6d541b0e6cbb95, type: 3}
       propertyPath: m_Volume
-      value: 0
+      value: 0.311
       objectReference: {fileID: 0}
     - target: {fileID: 711962442489408839, guid: 6be83460865eba64bb6d541b0e6cbb95, type: 3}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
