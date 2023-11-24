@@ -43,6 +43,7 @@ public class ChestContainer : MonoBehaviour
         childPopUp.SetActive(true);
         yield return new WaitForSeconds(time);
         childPopUp.SetActive(false);
+        Destroy(childPopUp);
     }
     // Update is called once per frame
     void Update()
