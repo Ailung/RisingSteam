@@ -49,7 +49,17 @@ public class PlayerCharacter : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (ObjectType.CompareTag("Enemy"))
+        if (ObjectType.CompareTag("enemy 1"))
+        {
+            UnityEngine.Debug.Log("Enemy");
+            SceneLoader.Load(SceneLoader.Scene.BattleScene1);
+        }
+        if (ObjectType.CompareTag("enemy 2"))
+        {
+            UnityEngine.Debug.Log("Enemy");
+            SceneLoader.Load(SceneLoader.Scene.BattleScene1);
+        }
+        if (ObjectType.CompareTag("enemy 3"))
         {
             UnityEngine.Debug.Log("Enemy");
             SceneLoader.Load(SceneLoader.Scene.BattleScene1);
