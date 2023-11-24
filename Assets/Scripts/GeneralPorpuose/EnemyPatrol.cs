@@ -65,7 +65,21 @@ public class EnemyPatrol : MonoBehaviour
                  
                  }
              }
-             rb.velocity = MoveDirection * PatrolSpeed;
+            if (vertical)
+            {
+                if (Vector2.Distance(rb.position, PatrolStart.position) < 0.1)
+                {
+                    sprite.flipX = false;
+                    MoveDirection = Vector2.down;
+                }
+                if (Vector2.Distance(rb.position, PatrolEnd.position) < 0.1)
+                {
+                    sprite.flipX = true;
+                    MoveDirection = Vector2.up;
+
+                }
+            }
+            rb.velocity = MoveDirection * PatrolSpeed;
         }
         if (!InPatrolRoute)
         {
@@ -99,6 +113,10 @@ public class EnemyPatrol : MonoBehaviour
         if (horizontal)
         {
            MoveDirection = Vector2.right;
+        }
+        if (vertical)
+        {
+            MoveDirection = Vector2.up;
         }
         InPatrolRoute = true;
     }
