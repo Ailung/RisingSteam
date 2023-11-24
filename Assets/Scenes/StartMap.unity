@@ -280,6 +280,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3197426089145236790, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
+      propertyPath: Escena
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197426089145236790, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
       propertyPath: vertical
       value: 1
       objectReference: {fileID: 0}
@@ -291,6 +295,10 @@ PrefabInstance:
       propertyPath: TargetPlayer
       value: 
       objectReference: {fileID: 1931565454}
+    - target: {fileID: 3197426089145236797, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
+      propertyPath: m_TagString
+      value: enemy 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
 --- !u!1 &312019284 stripped
@@ -7575,12 +7583,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3197426089145236790, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
       propertyPath: Escena
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3197426089145236790, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
       propertyPath: TargetPlayer
       value: 
       objectReference: {fileID: 1931565454}
+    - target: {fileID: 3197426089145236797, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
 --- !u!1001 &1012716710
@@ -7735,6 +7747,10 @@ PrefabInstance:
       value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 3197426089145236790, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
+      propertyPath: Escena
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197426089145236790, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
       propertyPath: vertical
       value: 0
       objectReference: {fileID: 0}
@@ -7750,6 +7766,10 @@ PrefabInstance:
       propertyPath: TargetPlayer
       value: 
       objectReference: {fileID: 1931565454}
+    - target: {fileID: 3197426089145236797, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
+      propertyPath: m_TagString
+      value: enemy 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3197426089388576547, guid: 5cd307eda5fad0d4caefd89a33e2cf6b, type: 3}
       propertyPath: m_Enabled
       value: 0

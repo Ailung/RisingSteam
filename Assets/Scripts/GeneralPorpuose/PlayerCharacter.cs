@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
@@ -27,7 +28,7 @@ public class PlayerCharacter : MonoBehaviour
     private InventoryItemData PlayerItem;
 
     private bool comeBack = true;
-
+   
     private void OnTriggerStay2D(Collider2D collision)
     {
         ObjectType = collision.gameObject;
@@ -51,6 +52,16 @@ public class PlayerCharacter : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //if (ObjectType.CompareTag("enemy 1"))
+        //{
+        //    UnityEngine.Debug.Log("Enemy");
+        //    SceneLoader.Load(SceneLoader.Scene.BattleScene1);
+        //}
+        //if (ObjectType.CompareTag("enemy 2"))
+        //{
+        //    UnityEngine.Debug.Log("Enemy");
+        //    SceneLoader.Load(SceneLoader.Scene.BattleScene1);
+        //}
         if (ObjectType.CompareTag("Enemy"))
         {
             GameManager.Instance.UpdateCharacterPos(this.gameObject);
