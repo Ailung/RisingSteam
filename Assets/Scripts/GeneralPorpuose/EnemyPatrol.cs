@@ -8,7 +8,7 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] public Transform PatrolEnd;
     [SerializeField] public Transform PatrolCenter;
     [SerializeField] public Transform TargetPlayer;
-    
+    [SerializeField] public SceneLoader.Scene Escena;
     
     [SerializeField] public float PatrolSpeed = 2f;
     [SerializeField] public float ChaseSpeed = 8f;

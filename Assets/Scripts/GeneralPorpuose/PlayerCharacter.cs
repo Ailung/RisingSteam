@@ -54,8 +54,10 @@ public class PlayerCharacter : MonoBehaviour
         if (ObjectType.CompareTag("Enemy"))
         {
             GameManager.Instance.UpdateCharacterPos(this.gameObject);
-            //Debug.Log("Enemy");
-            SceneLoader.Load(SceneLoader.Scene.BattleScene1);
+            if(ObjectType.TryGetComponent<EnemyPatrol>(out EnemyPatrol enemy))
+            {
+                SceneLoader.Load(enemy.Escena);
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
