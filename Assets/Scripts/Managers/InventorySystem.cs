@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+//using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 using static UnityEngine.Rendering.DebugUI;
 
 public class InventorySystem : MonoBehaviour
@@ -41,19 +41,15 @@ public class InventorySystem : MonoBehaviour
                 Debug.Log(PlayerHasItem);
             }
         }
-
         if (!PlayerHasItem)
         {
             inventory.Add(Item);
         }
-        if (PlayerHasItem)
+        foreach (InventoryItem PlayerItem in inventory)
         {
-            foreach (InventoryItem PlayerItem in inventory)
+            if (PlayerItem.ItemData == NewItemName)
             {
-                if (PlayerItem.ItemData == NewItemName)
-                {
-                    PlayerItem.AddToStack(RecivedStackSize);
-                }
+                PlayerItem.AddToStack(RecivedStackSize);
             }
         }
     }
@@ -110,8 +106,8 @@ public class InventorySystem : MonoBehaviour
         
     }
 
-    internal void Remove()
-    {
-        throw new NotImplementedException();
-    }
+    //internal void Remove()
+    //{
+    //    throw new NotImplementedException();
+    //}
 }

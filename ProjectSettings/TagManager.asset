@@ -10,6 +10,10 @@ TagManager:
   - Enemy
   - PatrolCenter
   - MovableObject
+  - MapEnding
+  - enemy 1
+  - enemy 3
+  - enemy 2
   layers:
   - Default
   - TransparentFX

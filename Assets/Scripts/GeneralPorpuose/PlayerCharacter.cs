@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+using UnityEngine.Events;
+//using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -25,33 +28,68 @@ public class PlayerCharacter : MonoBehaviour
     private InventoryItemData DoorKey;
     private InventoryItemData PlayerItem;
 
+    private bool comeBack = true;
+    public UnityEvent ChestSound = new UnityEvent();
+    public UnityEvent DoorSound = new UnityEvent();
+
+
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         ObjectType = collision.gameObject;
         if (ObjectType.CompareTag("Chest"))
         {
             animator.SetTrigger("isInteracting");
-            Debug.Log("cofre");
+            //Debug.Log("cofre");
             ObjectChestInventory = ObjectType.GetComponent<InventorySystem>();
         }
         if (ObjectType.CompareTag("Door"))
         {
             animator.SetTrigger("isInteracting");
-            Debug.Log("puerta interactuable");
+            //Debug.Log("puerta interactuable");
             ObjectDoorInventory = ObjectType.GetComponent<InventorySystem>();
             ObjectDoorCollider = ObjectType.GetComponent<BoxCollider2D>();
 
             DoorKey = ObjectDoorInventory.inventory[0].ItemData;
-            Debug.Log(DoorKey);
+            //Debug.Log(DoorKey);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //if (ObjectType.CompareTag("enemy 1"))
+        //{
+        //    UnityEngine.Debug.Log("Enemy");
+        //    SceneLoader.Load(SceneLoader.Scene.BattleScene1);
+        //}
+        //if (ObjectType.CompareTag("enemy 2"))
+        //{
+        //    UnityEngine.Debug.Log("Enemy");
+        //    SceneLoader.Load(SceneLoader.Scene.BattleScene1);
+        //}
         if (ObjectType.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy");
-            gameManager.ChangeBattleScene();
+            GameManager.Instance.UpdateCharacterPos(this.gameObject);
+            if(ObjectType.TryGetComponent<EnemyPatrol>(out EnemyPatrol enemy))
+            {
+                if (enemy.combatInt ==1)
+                {
+                    GameManager.Instance.combat1 = false;
+                }
+                if (enemy.combatInt == 2)
+                {
+                    GameManager.Instance.combat2 = false;
+                }
+                if (enemy.combatInt == 4)
+                {
+                    GameManager.Instance.combat4 = false;
+                }
+                if (enemy.combatInt == 5)
+                {
+                    GameManager.Instance.combat5 = false;
+                }
+                SceneLoader.Load(enemy.Escena);
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -59,7 +97,7 @@ public class PlayerCharacter : MonoBehaviour
         if (ObjectType.CompareTag("MovableObject"))
         {
             MovableObjectRB = collision.gameObject.GetComponent<Rigidbody2D>();
-            Debug.Log(MovableObjectRB);
+            //Debug.Log(MovableObjectRB);
             Vector2 forceDirection = collision.contacts[0].normal;
             Vector2 force = forceDirection.normalized * -ForceAplied;
             MovableObjectRB.AddForce(force);
@@ -88,13 +126,18 @@ public class PlayerCharacter : MonoBehaviour
                 {
                     if (ObjectChestInventory.InventoryItemCount() > 0)
                     {
+                        ChestSound.Invoke();
+
+                        UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
                         PlayerInventory.AddItem(ObjectChestInventory.inventory[0], ObjectChestInventory.inventory[0].StackSize);
+                        UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
                         ObjectChestInventory.RemoveItem(ObjectChestInventory.inventory[0], ObjectChestInventory.inventory[0].StackSize);
                         Destroy(ObjectChestInventory);
                     }
                 }
                 if (ObjectType.CompareTag("Door"))
                 {
+                    DoorSound.Invoke();
 
                     for (int i = 0; i < PlayerInventory.InventoryItemCount() ; i++)
                     {
@@ -109,7 +152,7 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 if (ObjectType.CompareTag("Enemy"))
                 {
-                    Debug.Log("enemy");
+                    //Debug.Log("enemy");
                 }
             }
         }
@@ -119,10 +162,16 @@ public class PlayerCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        comeBack = true;
         sprite = gameObject.GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         PlayerInventory = GetComponent<InventorySystem>();
         RigidBody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Awake()
+    {
+        comeBack = true;
     }
     private void FixedUpdate()
     {
@@ -160,8 +209,11 @@ public class PlayerCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
+        if (comeBack)
+        {
+            this.gameObject.transform.position = GameManager.Instance.postCharPos();
+            comeBack = false;
+        }
         PlayerInteraction();
         //MoveObject();
 

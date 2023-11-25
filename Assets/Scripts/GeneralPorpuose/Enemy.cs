@@ -279,14 +279,16 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (distPlayerTotal < distPlayerMax && distPlayerTotal > 1 && canAttack) 
+            if (distPlayerTotal <= distPlayerMax && distPlayerTotal > 1 && canAttack) 
             {
                 animator.SetTrigger("isMagic");
+                AudioManager.instance.PlaySFX("Magic");
                 doDamage(player, 0); 
             }
             if (distPlayerTotal <= 1 && canAttack)
             {
                 animator.SetTrigger("isAttacking");
+                AudioManager.instance.PlaySFX("Sword");
                 doDamage(player, 1);
             }
 
@@ -335,6 +337,9 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        casillasMovidas = 0;
+        canAttack = true;
+        isMyTurn = false;
         life = maxLife;
         animator = GetComponent<Animator>();
         StartPos = gameObject.transform.position;
