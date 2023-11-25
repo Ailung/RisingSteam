@@ -10,6 +10,10 @@ public class AudioManager : MonoBehaviour
     public Sound[] MusicSounds, SFXSounds;
     public AudioSource MusicSource, SFXSource;
 
+    [SerializeField] private PlayerCharacter playerCharacter;
+
+
+
     private void Awake()
     {
         if (instance == null)
@@ -24,7 +28,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Start() => PlayMusic("Theme");
+    private void Start()
+    {
+        PlayMusic("Theme");
+        playerCharacter.ChestSound.AddListener(ChestSound);
+        playerCharacter.DoorSound.AddListener(DoorSound);
+
+    }
 
     public void PlayMusic(string name)
     {
@@ -74,6 +84,14 @@ public class AudioManager : MonoBehaviour
     public void SFXVolume(float volume)
     {
         SFXSource.volume = volume;
+    }
+    public void DoorSound()
+    {
+        PlaySFX("Door");
+    }
+    public void ChestSound()
+    {
+        PlaySFX("Chest");
     }
 
 }

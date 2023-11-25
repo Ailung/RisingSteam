@@ -3,14 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SceneManagement;
 
 public static class SceneLoader
 {
     private class LoadingMonoBehaviour : MonoBehaviour { }
     public enum Scene
     {
-        MainMenu, LoadingScene, StartMap, BattleScene1, BattleScene2
+        MainMenu, LoadingScene, StartMap, BattleScene1, BattleScene2, BattleScene4, BattleScene5
     }
 
     private static Action onLoaderCallback;

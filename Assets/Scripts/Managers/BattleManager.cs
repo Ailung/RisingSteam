@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class BattleManager : MonoBehaviour
 {

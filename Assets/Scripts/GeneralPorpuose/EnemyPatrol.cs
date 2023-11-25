@@ -16,6 +16,8 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] public bool vertical;
     [SerializeField] public bool diagonalUR;
 
+    [SerializeField] public int combatInt;
+
     private Animator animator;
     private Rigidbody2D rb;
     private Vector2 MoveDirection;
@@ -24,6 +26,8 @@ public class EnemyPatrol : MonoBehaviour
     private bool InPatrolRoute;
     private SpriteRenderer sprite;
 
+
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ObjectInRange = collision.gameObject;
@@ -120,6 +124,10 @@ public class EnemyPatrol : MonoBehaviour
         }
 
     }
+    private void Awake()
+    {
+        
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -140,6 +148,22 @@ public class EnemyPatrol : MonoBehaviour
             MoveDirection = Vector2.up + Vector2.right;
         }
         InPatrolRoute = true;
+        if (combatInt == 1)
+        {
+            gameObject.SetActive(GameManager.Instance.combat1);
+        }
+        if (combatInt == 2)
+        {
+            gameObject.SetActive(GameManager.Instance.combat2);
+        }
+        if (combatInt == 4)
+        {
+            gameObject.SetActive(GameManager.Instance.combat4);
+        }
+        if (combatInt == 5)
+        {
+            gameObject.SetActive(GameManager.Instance.combat5);
+        }
     }
 
     // Update is called once per frame

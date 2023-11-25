@@ -4,7 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+using UnityEngine.Events;
+//using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -28,7 +29,11 @@ public class PlayerCharacter : MonoBehaviour
     private InventoryItemData PlayerItem;
 
     private bool comeBack = true;
-   
+    public UnityEvent ChestSound = new UnityEvent();
+    public UnityEvent DoorSound = new UnityEvent();
+
+
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         ObjectType = collision.gameObject;
@@ -67,6 +72,22 @@ public class PlayerCharacter : MonoBehaviour
             GameManager.Instance.UpdateCharacterPos(this.gameObject);
             if(ObjectType.TryGetComponent<EnemyPatrol>(out EnemyPatrol enemy))
             {
+                if (enemy.combatInt ==1)
+                {
+                    GameManager.Instance.combat1 = false;
+                }
+                if (enemy.combatInt == 2)
+                {
+                    GameManager.Instance.combat2 = false;
+                }
+                if (enemy.combatInt == 4)
+                {
+                    GameManager.Instance.combat4 = false;
+                }
+                if (enemy.combatInt == 5)
+                {
+                    GameManager.Instance.combat5 = false;
+                }
                 SceneLoader.Load(enemy.Escena);
             }
         }
@@ -105,6 +126,8 @@ public class PlayerCharacter : MonoBehaviour
                 {
                     if (ObjectChestInventory.InventoryItemCount() > 0)
                     {
+                        ChestSound.Invoke();
+
                         UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
                         PlayerInventory.AddItem(ObjectChestInventory.inventory[0], ObjectChestInventory.inventory[0].StackSize);
                         UnityEngine.Debug.Log(ObjectChestInventory.inventory[0].StackSize);
@@ -114,6 +137,7 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 if (ObjectType.CompareTag("Door"))
                 {
+                    DoorSound.Invoke();
 
                     for (int i = 0; i < PlayerInventory.InventoryItemCount() ; i++)
                     {

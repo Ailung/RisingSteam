@@ -15,6 +15,7 @@ public class InGamePause : MonoBehaviour
     }
     public void MainMenu()
     {
+        GameManager.Instance.ResetCharacterPos();
         SceneLoader.Load(SceneLoader.Scene.MainMenu);
         Time.timeScale = 1;
 

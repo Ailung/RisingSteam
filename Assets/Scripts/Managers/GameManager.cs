@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
@@ -26,10 +27,19 @@ public class GameManager : MonoBehaviour
     private bool isBattle = false;
     private Vector3 posCharacter;
     private Vector3 firstPosCharacter;
+    public bool combat1 = true;
+    public bool combat2 = true;
+    public bool combat4 = true;
+    public bool combat5 = true;
+
 
 
     private void Awake()
     {
+        combat1 = true; 
+        combat2 = true; 
+        combat4 = true; 
+        combat5 = true;
         FirstCharacterPos(player);
         UpdateCharacterPos(player);
         CreateSingleton();
@@ -65,6 +75,10 @@ public class GameManager : MonoBehaviour
     }
     public void ResetCharacterPos() 
     {
+        combat1 = true;
+        combat2 = true;
+        combat4 = true;
+        combat5 = true;
         posCharacter = firstPosCharacter;
     }
 
