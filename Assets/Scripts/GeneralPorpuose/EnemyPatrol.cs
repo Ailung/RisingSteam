@@ -15,6 +15,7 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] public bool horizontal;
     [SerializeField] public bool vertical;
     [SerializeField] public bool diagonalUR;
+    [SerializeField] public bool diagonalUL;
 
     private Animator animator;
     private Rigidbody2D rb;
@@ -94,6 +95,20 @@ public class EnemyPatrol : MonoBehaviour
 
                 }
             }
+            if (diagonalUL)
+            {
+                if (Vector2.Distance(rb.position, PatrolStart.position) < 0.1)
+                {
+                    sprite.flipX = false;
+                    MoveDirection = Vector2.down + Vector2.right;
+                }
+                if (Vector2.Distance(rb.position, PatrolEnd.position) < 0.1)
+                {
+                    sprite.flipX = true;
+                    MoveDirection = Vector2.up + Vector2.left;
+
+                }
+            }
             rb.velocity = MoveDirection * PatrolSpeed;
         }
         if (!InPatrolRoute)
@@ -138,6 +153,10 @@ public class EnemyPatrol : MonoBehaviour
         if (diagonalUR)
         {
             MoveDirection = Vector2.up + Vector2.right;
+        }
+        if (diagonalUL)
+        {
+            MoveDirection = Vector2.up + Vector2.left;
         }
         InPatrolRoute = true;
     }
